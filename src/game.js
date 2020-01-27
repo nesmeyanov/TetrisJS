@@ -66,6 +66,15 @@ export default class Game {
 	}
 
 	lockPiece() {
-		
+		const blocks = this.activePiece.blocks;
+
+
+		for (let y = 0; y < this.activePiece.blocks.length; y++) {
+			const element = this.activePiece.blocks[y];
+			for (let x = 0; x < block[y].length; x++) {
+				this.playfield[]
+				
+			}
+		}
 	}
 }

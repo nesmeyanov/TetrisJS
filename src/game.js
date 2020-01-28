@@ -2,56 +2,14 @@ export default class Game {
 	score = 0;
 	lines = 0;
 	level = 0;
-	playfield = [
-		[0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0],а
-		[0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0],
-		[0,0,0,0,0,0,0,0,0,0]
-	];
+	playfield = this.createPlayfield();
 	activePiece = {
 		x:0,
 		y:0,
-		get blocks (){
-			return this.rotations[this.rotationIndex];
-		},
-		rotationIndex: 0,
-		rotations: [
-			[
+		blocks: [
 				[0,1,0],
 				[1,1,1],
 				[0,0,0]
-			],
-			[
-				[0,1,0],
-				[0,1,1],
-				[0,1,0]
-			],
-			[
-				[0,0,0],
-				[1,1,1],
-				[0,1,0]
-			],
-			[
-				[0,1,0],
-				[1,1,0],
-				[0,1,0]
-			]
 		]
 	};
 
@@ -59,6 +17,48 @@ export default class Game {
 
 
 // methods
+
+	getState() {
+		const playfield = createPlayfield();
+
+		for (let y = 0; y <this.playfield.length; y++) {
+			playfield[y] = [];
+
+			for (let x = 0; x < this.playfield[y].length; x++) {
+				playfield[y][x] = this.playfield[y][x];
+			}
+			
+		}
+
+		for (let y = 0; y < this.activePiece.blocks.length; y++) {
+			for (let x = 0; x < this.activePiece.blocks[y].length; x++) {
+				if(this.activePiece.blocks[y][x]){
+					playfield[this.activePiece.y + y][this.activePiece.x + x] = this.activePiece.blocks[y][x];
+				}
+			}
+		}
+
+		return {
+			playfield
+		};
+	}
+
+	createPlayfield(){
+		const playfield = [];
+		for (let y = 0; y <20; y++) {
+			playfield[y] = [];
+
+			for (let x = 0; x < 0; x++) {
+				playfield[y][x] = 0;
+				
+			}
+			
+		}
+
+		return playfield;
+	}
+
+
 	movePieceLeft() {
 		this.activePiece.x -=1;
 
@@ -85,13 +85,45 @@ export default class Game {
 	}
 
 		rotatePiece(){
-				this.activePiece.rotationIndex = this.activePiece.rotationIndex < 3 ? this.activePiece.rotationIndex + 1 : 3;
-				console.log(this.hasCollision());
-			if (this.hasCollision()){
-				this.activePiece.rotationIndex = this.activePiece.rotationIndex > 0 ? this.activePiece.rotationIndex - 1 : 3;
-			}
+			this.rotateBlocks();
 
-				return this.activePiece.blocks;
+			if(this.hasCollision()) {
+				this.rotateBlocks(false);
+			}
+		}
+		
+					// 	this.activePiece.rotationIndex = this.activePiece.rotationIndex < 3 ? this.activePiece.rotationIndex + 1 : 3;
+					// 	console.log(this.hasCollision());
+					// if (this.hasCollision()){
+					// 	this.activePiece.rotationIndex = this.activePiece.rotationIndex > 0 ? this.activePiece.rotationIndex - 1 : 3;
+					// }
+		
+					// 	return this.activePiece.blocks;
+
+		rotateBlocks(clockwise = true) {
+			const blocks = this.activePiece.blocks;
+			const length = blocks.length;
+			const x = Math.floor(length / 2 );
+			const y = length - 1;
+			
+			for (let i = 0; i < x; i++) {
+				for (let j = i; j < y - i; j++) {
+					const temp = blocks[i][j];
+
+					if(clockwise) {
+						blocks[i][j] = blocks[y - j][i];
+						blocks[y - j][i] = blocks[y - i][y - j];
+						blocks[y - i][y - j] = blocks[j][y - i]
+						blocks[j][y - i] = temp;
+					} else {
+						blocks[i][j] = blocks[j][y - i];
+						blocks[j][y-i] = blocks[y - i][y - j];
+						blocks[y - i][y - j] = blocks[y - j][i];
+						blocks[y - j][i] = temp;
+					}
+				}
+				
+			}
 		}
 
 

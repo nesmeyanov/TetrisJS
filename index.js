@@ -10,6 +10,8 @@ const view = new View(root, 320, 640, 20, 10);
 window.game = game;
 window.view = view;
 
+
+
 document.addEventListener('keydown', event => {
 	switch (event.keyCode){
 		case 37: //left arrow
@@ -31,3 +33,4 @@ document.addEventListener('keydown', event => {
 	}
 });
 
+view.renderPlayfield(game.getState());

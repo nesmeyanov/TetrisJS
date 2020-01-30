@@ -1,5 +1,5 @@
 export default class View {
-	constructor(element, width, height, rows, colums) {
+	constructor(element, width, height, rows, columns) {
 		this.element = element;
 		this.width = width;
 		this.height = height;
@@ -9,21 +9,21 @@ export default class View {
 		this.canvas.height = this.height;
 		this.context = this.canvas.getContext('2d');
 
-		this.blockWidth = this.width / colums;
+		this.blockWidth = this.width / columns;
 		this.blockHeight = this.height / rows;
 
 		this.element.appendChild(this.canvas);
 	}
-
-	render({ playfstield }){
+	
+	render({ playfield }){
 		this.clearScreen();
 		this.renderPlayfield(playfield);
-
 	}
 
 	clearScreen(){
 		this.context.clearRect(0,0, this.width, this.height);
 	}
+
 	renderPlayfield(playfield){
 		for (let y = 0; y < playfield.length; y++) {
 			const line = playfield[y];
@@ -36,10 +36,9 @@ export default class View {
 			}
 		}
 	}
-
 	renderBlock(x, y, width, height, color){
 		this.context.fillStyle = color;
-		this.context.strikeStyle = 'black';
+		this.context.strokeStyle = 'black';
 		this.context.lineWidth = '2';
 
 		this.context.fillRect(x, y, width, height);

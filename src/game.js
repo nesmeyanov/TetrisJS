@@ -12,14 +12,11 @@ export default class Game {
 				[0,0,0]
 		]
 	};
-
-
-
-
 // methods
-
 	getState() {
-		const playfield = createPlayfield();
+		const playfield = this.createPlayfield();
+		const { y: pieceY, x: pieceX, blocks } = this.activePiece;
+
 
 		for (let y = 0; y <this.playfield.length; y++) {
 			playfield[y] = [];
@@ -27,13 +24,12 @@ export default class Game {
 			for (let x = 0; x < this.playfield[y].length; x++) {
 				playfield[y][x] = this.playfield[y][x];
 			}
-			
 		}
 
-		for (let y = 0; y < this.activePiece.blocks.length; y++) {
-			for (let x = 0; x < this.activePiece.blocks[y].length; x++) {
-				if(this.activePiece.blocks[y][x]){
-					playfield[this.activePiece.y + y][this.activePiece.x + x] = this.activePiece.blocks[y][x];
+		for (let y = 0; y < blocks.length; y++) {
+			for (let x = 0; x < blocks[y].length; x++) {
+				if(blocks[y][x]){
+					playfield[pieceY + y][pieceX + x] = blocks[y][x];
 				}
 			}
 		}
@@ -48,7 +44,7 @@ export default class Game {
 		for (let y = 0; y <20; y++) {
 			playfield[y] = [];
 
-			for (let x = 0; x < 0; x++) {
+			for (let x = 0; x < 10; x++) {
 				playfield[y][x] = 0;
 				
 			}
@@ -91,14 +87,6 @@ export default class Game {
 				this.rotateBlocks(false);
 			}
 		}
-		
-					// 	this.activePiece.rotationIndex = this.activePiece.rotationIndex < 3 ? this.activePiece.rotationIndex + 1 : 3;
-					// 	console.log(this.hasCollision());
-					// if (this.hasCollision()){
-					// 	this.activePiece.rotationIndex = this.activePiece.rotationIndex > 0 ? this.activePiece.rotationIndex - 1 : 3;
-					// }
-		
-					// 	return this.activePiece.blocks;
 
 		rotateBlocks(clockwise = true) {
 			const blocks = this.activePiece.blocks;
@@ -125,13 +113,9 @@ export default class Game {
 				
 			}
 		}
-
-
-
 	hasCollision (){
 
-		const { y: pieceY, x: pieceX, blocks } = this.activePiece;
-
+		const {y: pieceY, x: pieceX, blocks} = this.activePiece;
 		for (let y = 0; y < blocks.length; y++) {
 			// const element = this.activePiece.blocks[y];
 			for (let x = 0; x < blocks[y].length; x++) {

@@ -1,6 +1,6 @@
 export default class View {
 	static colors = {
-		'1': 'green',
+		'1': 'grey',
 		'2': 'blue',
 		'3': 'coral',
 		'4': 'grey',
@@ -36,13 +36,13 @@ export default class View {
 
 	renderPlayfield(playfield){
 		for (let y = 0; y < playfield.length; y++) {
-			const line = playfield[y];
-			for (let x = 0; x < line.length; x++) {
-				const block = line[x];
+			for (let x = 0; x < playfield[y].length; x++) {
+				const block = playfield[y][x];
 				
 				if (block) {
 					this.renderBlock(x * this.blockWidth, y * this.blockHeight, this.blockWidth, this.blockHeight, View.colors[block]);
 				}
+				// console.log('View.colors[block]', View.colors[block])
 			}
 		}
 	}

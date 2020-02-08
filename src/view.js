@@ -100,11 +100,11 @@ export default class View {
 		this.context.lineWidth = this.playfieldBorderWidth;
 		this.context.strokeRect(0, 0, this.playfieldWidth, this.playfieldHeight);
 	}
-	renderPanel({ level, score, lines, nextPiece }){
+	renderPanel({ level, score, lines, nextPiece }) {
 		this.context.textAlign = 'start';
 		this.context.textBaseline = 'top';
 		this.context.fillStyle = 'white';
-		this.context.font = '24px "Press Start 2P"';
+		this.context.font = '14px "Press Start 2P"';
 
 		this.context.fillText(`level: ${level}`, this.panelX, this.panelY + 0);
 		this.context.fillText(`Score: ${score}`, this.panelX, this.panelY + 24);
@@ -118,7 +118,7 @@ export default class View {
 				if(block) {
 					this.renderBlock (
 						this.panelX+ (x * this.blockWidth * 0.5),
-						this.panelY + 120 + (y * this.blockHeight * 0.5),
+						this.panelY + 100 + (y * this.blockHeight * 0.5),
 						this.blockWidth * 0.5,
 						this.blockHeight * 0.5,
 						View.colors[block]
